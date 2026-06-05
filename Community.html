@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartStudy Community</title>
+<link rel="stylesheet" href="css/style.css" />
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+:root{
+    --voilet:#223b0a;
+    --pink:#0f0f25;
+    --gradient:linear-gradient(90deg,var(--voilet),var(--pink));
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:white;
+    min-height:100vh;
+}
+
+header{
+    text-align:center;
+    padding:2rem;
+    color:white;
+    font-size:2rem;
+}
+
+.containers{
+    background:white;
+    width:60%;
+    max-width:700px;
+    margin:auto;
+    padding:2rem; 
+    border-radius:10px;
+}
+
+input, textarea{
+    width:90%;
+    padding:1rem;
+    margin:0.7rem 0;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:1rem;
+}
+
+button{
+    padding:0.8rem 2rem;
+    border-radius:0.5rem;
+    background:var(--pink);
+    color:white;
+    cursor:pointer;
+    font-size:1rem;
+    transition:0.2s;
+}
+
+button:hover{
+    background:var(--gradient);
+}
+
+
+</style>
+<script>
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+</head>
+
+<body>
+<div class="container" >
+      <header>
+        <a href="index.html" class="logo">Smart<span>Study</span></a>
+        <div id="menu" class="fas fa-bars"></div>
+        <nav class="navbar">
+          <a href="index.html">Home</a>
+          <a href="course.html">Course</a>
+          <a href="teacher.html">Teacher</a>
+          <a href="quiz.html">Quiz</a>
+            <a href="community.html">Communiy</a>
+          <a href="pomodoro.html">Pomodoro</a>
+          <a href="contact.html">Contact</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </nav>
+      </header></div>
+<h2 style="text-align: center;font-size: 25px;">
+    SmartStudy Community
+</h2>
+<br><br>
+
+<div class="containers">
+
+    <h2>Create Post</h2>
+
+    <input type="text" id="title" placeholder="Post title">
+    <textarea id="content" placeholder="Ask your doubt..."></textarea>
+
+    <button onclick="addPost()">Post</button>
+
+    <hr style="margin:2rem 0;">
+
+    <div id="posts"></div>
+
+</div>
+<section class="footer" style="background-color: white;">
+        <div class="box-container">
+          <div class="box">
+            <h3>About Us</h3>
+            <p>Study Point is an online learning platform dedicated to helping students develop practical skills through high-quality courses, hands-on projects, and expert guidance.</p>
+          </div>
+          <div class="box">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="course.html">Course</a>
+            <a href="teacher.html">Teacher</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="pomodoro.html">Pomodoro</a>
+            <a href="Community.html">Community</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="box">
+            <h3>Follow Us</h3>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+          </div>
+          <div class="box">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-phone">+91-123-456-7890</i></p>
+            <p><i class="fas fa-envelope">sample123@gmail.com</i></p>
+            <p><i class="fas fa-map-market-alt">Sample Colony, Mysore</i></p>
+          </div>
+        </div>
+        </section>
+<script>
+
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+function renderPosts(){
+
+    let html = "";
+
+    posts.forEach((post, index)=>{
+
+        html += `
+        <div class="post">
+            <h3>${post.title}</h3>
+            <p>${post.content}</p>
+            <small>By ${post.user}</small>
+
+            <br><br>
+
+            <input type="text" id="reply${index}" placeholder="Write reply">
+            <button onclick="addReply(${index})">Reply</button>
+
+            <div>
+                ${post.replies.map(r => `<div class="reply">↳ ${r}</div>`).join("")}
+            </div>
+        </div>
+        `;
+    });
+
+    document.getElementById("posts").innerHTML = html;
+}
+
+function addPost(){
+
+    let title = document.getElementById("title").value;
+    let content = document.getElementById("content").value;
+    let user = localStorage.getItem("user") || "Guest";
+
+    if(title.trim()==="" || content.trim()==="") return;
+
+    posts.unshift({
+        title,
+        content,
+        user,
+        replies:[]
+    });
+
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    document.getElementById("title").value="";
+    document.getElementById("content").value="";
+
+    renderPosts();
+}
+
+function addReply(index){
+
+    let input = document.getElementById("reply"+index);
+    let text = input.value;
+
+    if(text.trim()==="") return;
+
+    posts[index].replies.push(text);
+
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    renderPosts();
+}
+
+renderPosts();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database Management System Course</title>
+
+<link rel="stylesheet" href="css/style.css" />
+<script>
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+</head>
+
+<body>
+<div class="container" >
+      <header>
+        <a href="index.html" class="logo">Smart<span>Study</span></a>
+        <div id="menu" class="fas fa-bars"></div>
+        <nav class="navbar">
+          <a href="index.html">Home</a>
+          <a href="course.html">Course</a>
+          <a href="teacher.html">Teacher</a>
+          <a href="quiz.html">Quiz</a>
+            <a href="community.html">Communiy</a>
+          <a href="pomodoro.html">Pomodoro</a>
+          <a href="contact.html">Contact</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </nav>
+      </header></div>
+
+<div class="container">
+<div style="text-align: center;"">
+    <h1>Computer Newtork Course</h1>
+</div>
+    <!-- VIDEO -->
+    <div class="video-box">
+        <iframe id="video"
+        src="https://www.youtube-nocookie.com/embed/IPvYjXCsTg8"
+        allowfullscreen></iframe>
+    </div>
+    <div style="padding: 25px;">
+
+    <!-- MARK COMPLETE -->
+    <button class="btn" onclick="markComplete()">
+        Mark This Lesson Complete
+    </button>
+<br><br>
+    <!-- LESSONS -->
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/IPvYjXCsTg8','Basics')">
+    Basics
+</div>
+    
+    <br><br>
+    <!-- PROGRESS -->
+    <h2>Progress</h2>
+    <progress id="bar" value="0" max="100"></progress>
+    <p id="text">0% Completed</p>
+    <br><br>
+    </div>
+        <hr style="border: 1px solid #ccc;">
+        <div style="padding: 20px;">
+    <!-- NOTES -->
+    <div class="notes">
+        <h1>Notes</h1>
+        <p>Download study material for this course</p>
+
+        <a class="download" href="notes/cn.pdf" download>
+            Download Notes
+        </a>
+    </div>
+    <br>
+    <br>
+    </div>
+    <!-- STUDENT NOTES UPLOAD -->
+<div class="notes-upload">
+    <h1>Upload Your Notes</h1>
+
+    <input type="file" id="noteFile" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg">
+
+    <button class="btn" onclick="uploadNotes()">
+        Upload Notes
+    </button>
+
+    <h3>Uploaded Notes</h3>
+    <ul id="notesList"></ul>
+</div>
+</div>
+<section class="footer" style="background-color: white;">
+        <div class="box-container">
+          <div class="box">
+            <h3>About Us</h3>
+            <p>Study Point is an online learning platform dedicated to helping students develop practical skills through high-quality courses, hands-on projects, and expert guidance.</p>
+          </div>
+          <div class="box">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="course.html">Course</a>
+            <a href="teacher.html">Teacher</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="pomodoro.html">Pomodoro</a>
+            <a href="Community.html">Community</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="box">
+            <h3>Follow Us</h3>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+          </div>
+          <div class="box">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-phone">+91-123-456-7890</i></p>
+            <p><i class="fas fa-envelope">sample123@gmail.com</i></p>
+            <p><i class="fas fa-map-market-alt">Sample Colony, Mysore</i></p>
+          </div>
+        </div>
+        </section>
+<script>
+
+let totalLessons = 1;
+let completed = JSON.parse(localStorage.getItem("cnProgress")) || [];
+let currentLesson = "html";
+
+/* change video */
+function changeVideo(video, id){
+    document.getElementById("video").src = video;
+    currentLesson = id;
+}
+
+/* mark complete */
+function markComplete(){
+
+    if(!completed.includes(currentLesson)){
+        completed.push(currentLesson);
+        localStorage.setItem("cnProgress", JSON.stringify(completed));
+    }
+    
+    updateProgress();
+}
+
+/* update progress */
+function updateProgress(){
+
+    let percent = (completed.length / totalLessons) * 100;
+
+    document.getElementById("bar").value = percent;
+    document.getElementById("text").innerText =
+        Math.round(percent) + "% Completed";
+}
+
+/* load on start */
+updateProgress();
+/* upload notes */
+function uploadNotes(){
+
+    let fileInput = document.getElementById("noteFile");
+    let file = fileInput.files[0];
+
+    if(!file){
+        alert("Please select a file first!");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        let notes = JSON.parse(localStorage.getItem("cnstudentNotes")) || [];
+
+        notes.push({
+            name: file.name,
+            data: e.target.result
+        });
+
+        localStorage.setItem("cnstudentNotes", JSON.stringify(notes));
+
+        displayNotes();
+
+        alert("Notes uploaded successfully!");
+
+        fileInput.value = "";
+    };
+
+    reader.readAsDataURL(file);
+}
+
+/* display uploaded notes */
+function displayNotes(){
+
+    let notes = JSON.parse(localStorage.getItem("cnstudentNotes")) || [];
+
+    let list = document.getElementById("notesList");
+
+    list.innerHTML = "";
+
+    notes.forEach((note, index) => {
+
+        let li = document.createElement("li");
+
+        li.innerHTML = `
+            <a href="${note.data}" download="${note.name}">
+                ${note.name}
+            </a>
+
+            <button onclick="deleteNote(${index})">
+                Delete
+            </button>
+        `;
+
+        list.appendChild(li);
+    });
+}
+
+/* delete note */
+function deleteNote(index){
+
+    let notes = JSON.parse(localStorage.getItem("cnstudentNotes")) || [];
+
+    notes.splice(index, 1);
+
+    localStorage.setItem("cnstudentNotes", JSON.stringify(notes));
+
+    displayNotes();
+}
+
+/* load notes on start */
+displayNotes();
+</script>
+</body>
+</html>

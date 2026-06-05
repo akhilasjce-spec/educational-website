@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz System</title>
+
+<link rel="stylesheet" href="css/style.css" />
+<script src="https://kit.fontawesome.com/a9171d7552.js" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="css/style.css" />
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f3f4f6;
+}
+
+/* HEADER */
+header{
+    background:white;
+    color:#0b2e18;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+}
+
+
+
+header .logo span{
+    color:#0b2e18;
+}
+
+.navbar a{
+    color:white;
+    margin:0 10px;
+    text-decoration:none;
+}
+
+/* CONTAINER */
+.container{
+    width:85%;
+    margin:auto;
+    padding:30px 0;
+}
+
+/* TOP BAR */
+.topbar{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.topbar button{
+    margin:5px;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#e3e4e6;
+    color:white;
+}
+
+/* TIMER */
+.timer{
+    font-size:18px;
+    font-weight:bold;
+    color:#dc2626;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* QUESTION */
+.question{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+}
+
+/* BUTTON */
+.btn{
+    padding:12px 20px;
+    background:#134727;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    display:block;
+    margin:20px auto;
+}
+
+/* RESULT */
+.result{
+    display:none;
+    background:white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+    text-align:center;
+}
+
+/* LEADERBOARD */
+#leaderboardBox{
+    display:none;
+    background:white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+}
+</style>
+<script>
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <a href="index.html" class="logo">Smart<span>Study</span></a>
+
+  <div id="menu" class="fas fa-bars"></div>
+
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="course.html">Course</a>
+    <a href="teacher.html">Teacher</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="community.html">Community</a>
+    <a href="pomodoro.html">Pomodoro</a>
+    <a href="contact.html">Contact</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+</header>
+
+<div class="container">
+
+    <h2 style="text-align:center;">Quiz System</h2>
+
+    <div class="topbar">
+        <button onclick="loadQuiz('frontend')">Frontend</button>
+        <button onclick="loadQuiz('backend')">Backend</button>
+        <button onclick="loadQuiz('uiux')">UI/UX</button>
+        <button onclick="loadQuiz('dbms')">DBMS</button>
+        <button onclick="loadQuiz('network')">Computer Networks</button>
+        <button onclick="loadQuiz('graphic')">Graphic Design</button>
+
+        <button onclick="showLeaderboard()">Leaderboard</button>
+    </div>
+
+    <!-- TIMER -->
+    <div class="timer" id="timerBox">
+        Time Left: <span id="time">60</span> sec
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quizBox"></div>
+
+    <button class="btn" id="submitBtn" onclick="submitQuiz()">Submit Quiz</button>
+
+    <!-- RESULT -->
+    <div class="result" id="result">
+        <h2>Your Score</h2>
+        <h1 id="score"></h1>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div id="leaderboardBox">
+        <h2>Leaderboard</h2>
+        <div id="leaderboardList"></div>
+    </div>
+
+</div>
+<section class="footer" style="background-color: white;">
+        <div class="box-container">
+          <div class="box">
+            <h3>About Us</h3>
+            <p>Study Point is an online learning platform dedicated to helping students develop practical skills through high-quality courses, hands-on projects, and expert guidance.</p>
+          </div>
+          <div class="box">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="course.html">Course</a>
+            <a href="teacher.html">Teacher</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="pomodoro.html">Pomodoro</a>
+            <a href="Community.html">Community</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="box">
+            <h3>Follow Us</h3>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+          </div>
+          <div class="box">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-phone">+91-123-456-7890</i></p>
+            <p><i class="fas fa-envelope">sample123@gmail.com</i></p>
+            <p><i class="fas fa-map-market-alt">Sample Colony, Mysore</i></p>
+          </div>
+        </div>
+        </section>
+<script>
+
+let time = 60;
+let timer;
+let currentQuiz = "frontend";
+
+/* QUIZ DATA */
+let data = {
+
+frontend: [
+    {q:"HTML stands for?",a:"a",opt:["Hyper Text Markup Language","High Text Machine"]},
+    {q:"CSS is used for?",a:"a",opt:["Styling","Database"]},
+],
+
+backend: [
+    {q:"Node.js is used for?",a:"a",opt:["Backend","Design"]},
+    {q:"Express is?",a:"a",opt:["Framework","Database"]},
+],
+
+uiux: [
+    {q:"UI means?",a:"a",opt:["User Interface","User Internet"]},
+    {q:"UX focuses on?",a:"a",opt:["Experience","Coding"]},
+],
+
+dbms: [
+    {q:"DBMS stores?",a:"a",opt:["Data","Images only"]},
+    {q:"SQL is?",a:"a",opt:["Query Language","Design tool"]},
+],
+
+network: [
+    {q:"IP stands for?",a:"a",opt:["Internet Protocol","Internal Process"]},
+    {q:"HTTP is used for?",a:"a",opt:["Web communication","Gaming"]},
+],
+
+graphic: [
+    {q:"RGB stands for?",a:"a",opt:["Red Green Blue","Random Graphic Base"]},
+    {q:"Photoshop is used for?",a:"a",opt:["Image editing","Coding"]},
+]
+
+};
+
+/* LOAD QUIZ */
+function loadQuiz(type){
+
+    currentQuiz = type;
+
+    clearInterval(timer);
+    time = 60;
+    startTimer();
+
+    let html = "";
+
+    data[type].forEach((item, index)=>{
+
+        html += `
+        <div class="question">
+            <p>${index+1}. ${item.q}</p>
+            <input type="radio" name="q${index}" value="a"> ${item.opt[0]} <br>
+            <input type="radio" name="q${index}" value="b"> ${item.opt[1]} <br>
+        </div>
+        `;
+    });
+
+    document.getElementById("quizBox").innerHTML = html;
+
+    document.getElementById("result").style.display = "none";
+    document.getElementById("leaderboardBox").style.display = "none";
+
+    // SHOW QUIZ MODE
+    document.getElementById("quizBox").style.display = "block";
+    document.getElementById("submitBtn").style.display = "block";
+    document.getElementById("timerBox").style.display = "block";
+}
+
+/* TIMER */
+function startTimer(){
+
+    timer = setInterval(()=>{
+
+        time--;
+        document.getElementById("time").innerText = time;
+
+        if(time <= 0){
+            submitQuiz();
+        }
+
+    },1000);
+}
+
+/* SUBMIT */
+function submitQuiz(){
+
+    clearInterval(timer);
+
+    let score = 0;
+
+    data[currentQuiz].forEach((item, index)=>{
+
+        let selected = document.querySelector(`input[name="q${index}"]:checked`);
+
+        if(selected && selected.value === item.a){
+            score++;
+        }
+
+    });
+
+    document.getElementById("result").style.display = "block";
+    document.getElementById("score").innerText =
+        score + " / " + data[currentQuiz].length;
+
+    saveScore(score);
+}
+
+/* SAVE */
+function saveScore(score){
+
+    let user = localStorage.getItem("user") || "Guest";
+
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    leaderboard.push({
+        name: user,
+        quiz: currentQuiz,
+        score: score,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+}
+
+/* LEADERBOARD (FIXED) */
+function showLeaderboard(){
+
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    leaderboard.sort((a,b)=> b.score - a.score);
+
+    let html = "";
+
+    leaderboard.forEach((item, index)=>{
+
+        html += `
+        <div style="padding:12px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;">
+            <b>#${index+1} ${item.name}</b>
+            <span>Score: ${item.score}</span>
+        </div>
+        `;
+    });
+
+    document.getElementById("leaderboardList").innerHTML = html;
+
+    document.getElementById("leaderboardBox").style.display = "block";
+
+    // HIDE QUIZ UI
+    document.getElementById("quizBox").style.display = "none";
+    document.getElementById("submitBtn").style.display = "none";
+    document.getElementById("timerBox").style.display = "none";
+}
+
+loadQuiz("frontend");
+
+</script>
+
+</body>
+</html>

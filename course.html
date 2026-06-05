@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Courses</title>
+    <script src="https://kit.fontawesome.com/a9171d7552.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css" />
+  <script>
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="home.html" class="logo">Smart<span>Study</span></a>
+        <div id="menu" class="fas fa-bars"></div>
+        <nav class="navbar">
+          <a href="index.html">Home</a>
+          <a href="course.html">Course</a>
+          <a href="teacher.html">Teacher</a>
+          <a href="quiz.html">Quiz</a>
+          <a href="pomodoro.html">Pomodoro</a>
+          <a href="Community.html">Community</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </header>
+      <h1 class="heading">Popular Courses</h1>
+      <section class="course">
+        <div class="box">
+          <span class="amount"> ₹999 </span>
+          <img src="images/course1.png" alt="" />
+          <div class="stars">
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+          </div>
+          <h3>Front-End Development</h3>
+          <p>Building the visible part of a website that users interact with.</p>
+          <a href="frontend.html" class="btn">Learn more</a>
+          <div class="icons">
+            <p><i class="far fa-clock"></i>2 Hours</p>
+            <p><i class="far fa-calendar"></i>6 Months</p>
+            <p><i class="far fa-book"></i>12 Modules</p>
+          </div>
+        </div>
+        <div class="box">
+          <span class="amount" > ₹999 </span>
+          <img src="images/backend.png" alt="" />
+          <div class="stars">
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+          </div>
+          <h3>Back-End Development</h3>
+          <p>Handling server, database, and logic that powers websites behind the scenes.</p>
+          <a href="backend.html" class="btn">Learn more</a>
+          <div class="icons">
+            <p><i class="far fa-clock"></i>2 Hours</p>
+            <p><i class="far fa-calendar"></i>6 Months</p>
+            <p><i class="far fa-book"></i>12 Modules</p>
+          </div>
+        </div>
+        <div class="box">
+          <span class="amount"> ₹999 </span>
+          <img src="images/uiux.jpg" alt="" />
+          <div class="stars">
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+          </div>
+          <h3>UI/UX Design</h3>
+          <p>Designing user-friendly interfaces and improving user experience for  websites.</p>
+          <a href="uxui.html" class="btn">Learn more</a>
+          <div class="icons">
+            <p><i class="far fa-clock"></i>2 Hours</p>
+            <p><i class="far fa-calendar"></i>6 Months</p>
+            <p><i class="far fa-book"></i>12 Modules</p>
+          </div>
+        </div>
+        <div class="box">
+          <span class="amount"> ₹999 </span>
+          <img src="images/graphicdes.png" alt="" />
+          <div class="stars">
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+          </div>
+          <h3>Graphic Designing</h3>
+          <p>Creating visual content like logos, posters, banners , and digital artwork using design tools.</p>
+           <a href="graphic.html" class="btn">Learn more</a>
+          <div class="icons">
+            <p><i class="far fa-clock"></i>2 Hours</p>
+            <p><i class="far fa-calendar"></i>6 Months</p>
+            <p><i class="far fa-book"></i>12 Modules</p>
+          </div>
+        </div>
+        <div class="box">
+          <span class="amount"> ₹999 </span>
+          <img src="images/1.png" alt="" />
+          <div class="stars">
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+          </div>
+          <h3>Database Management System</h3>
+          <p>System used to store, manage data efficiently</p>
+          <a href="dbms.html" class="btn">Learn more</a>
+          <div class="icons">
+            <p><i class="far fa-clock"></i>2 Hours</p>
+            <p><i class="far fa-calendar"></i>6 Months</p>
+            <p><i class="far fa-book"></i>12 Modules</p>
+          </div>
+        </div>
+        <div class="box">
+          <span class="amount"> ₹999 </span>
+          <img src="images/dbms.jpg" alt="" />
+          <div class="stars">
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+            <i class="fas fastar"></i>
+          </div>
+          <h3>Computer Network</h3>
+          <p>Study of how computers connect and communicate with each other over networks like the internet.</p>
+          <a href="cn.html" class="btn">Learn more</a>
+          <div class="icons">
+            <p><i class="far fa-clock"></i>2 Hours</p>
+            <p><i class="far fa-calendar"></i>6 Months</p>
+            <p><i class="far fa-book"></i>3 Modules</p>
+          </div>
+        </div>
+      </section>
+      <section class="footer" style="background-color: white;">
+        <div class="box-container">
+          <div class="box">
+            <h3>About Us</h3>
+            <p>Study Point is an online learning platform dedicated to helping students develop practical skills through high-quality courses, hands-on projects, and expert guidance.</p>
+          </div>
+          <div class="box">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="course.html">Course</a>
+            <a href="teacher.html">Teacher</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="pomodoro.html">Pomodoro</a>
+            <a href="Community.html">Community</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="box">
+            <h3>Follow Us</h3>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+          </div>
+          <div class="box">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-phone">+91-123-456-7890</i></p>
+            <p><i class="fas fa-envelope">sample123@gmail.com</i></p>
+            <p><i class="fas fa-map-market-alt">Sample Colony, Mysore</i></p>
+          </div>
+        </div>
+        </section>
+    </div>
+    <script src="js/script.js"></script>
+  </body>
+</html>

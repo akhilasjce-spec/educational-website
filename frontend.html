@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontend Course</title>
+<script>
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+<div class="container" >
+      <header>
+        <a href="index.html" class="logo">Smart<span>Study</span></a>
+        <div id="menu" class="fas fa-bars"></div>
+        <nav class="navbar">
+          <a href="index.html">Home</a>
+          <a href="course.html">Course</a>
+          <a href="teacher.html">Teacher</a>
+          <a href="quiz.html">Quiz</a>
+            <a href="community.html">Communiy</a>
+          <a href="pomodoro.html">Pomodoro</a>
+          <a href="contact.html">Contact</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </nav>
+      </header>
+<div class="container">
+<div style="text-align: center;">
+    <h1>Frontend Development Course</h1>
+</div>
+    <!-- VIDEO -->
+    <div class="video-box">
+        <iframe id="video"
+        src="https://www.youtube-nocookie.com/embed/916GWv2Qs08?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E"
+        allowfullscreen></iframe>
+    </div>
+    <div style="padding: 25px;">
+
+    <!-- MARK COMPLETE -->
+    <button class="btn" onclick="markComplete()">
+        Mark This Lesson Complete
+    </button>
+<br>
+    <!-- LESSONS -->
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/916GWv2Qs08?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','HTML')">
+    HTML
+</div>
+
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/OXGznpKZ_sA?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','CSS')">
+    CSS
+</div>
+
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/WPqXP_kLzpo?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','VS')">
+    VS Code
+</div>
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/jS4aFq5-91M?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','JS')">
+    Javascript
+</div>
+
+<div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/_ZvnD73m40o?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','Prompt')">
+    Prompt Engineering
+</div>
+
+<div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/krfUjg0S2uI?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','Build')">
+    Build a Simple Website
+</div>
+
+<div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/y51Cv4wnsPw?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','WebApp')">
+    Web App
+    </div>
+
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/RGOj5yH7evk?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','Git')">
+        Git and GitHub
+    </div>
+
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/iJKCj8uAHz8?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','Bootstrap')">
+        Bootstrap
+    </div>
+
+    <div class="lesson" onclick="changeVideo('https://www.youtube-nocookie.com/embed/2-crBg6wpp0?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E','React')">
+        React
+    </div>
+    
+    <br><br>
+    <!-- PROGRESS -->
+    <h2>Progress</h2>
+    <progress id="bar" value="0" max="100"></progress>
+    <p id="text">0% Completed</p>
+    <br><br>
+</div>
+        <hr style="border: 1px solid #ccc;">
+        <div style="padding: 20px;">
+    <!-- NOTES -->
+    <div class="notes">
+        <h1>Notes</h1>
+        <p>Download study material for this course</p>
+
+        <a class="download" href="notes/frontend.pdf" download>
+            Download Notes
+        </a>
+    </div>
+
+</div>
+<br>
+<!-- STUDENT NOTES UPLOAD -->
+<div class="notes-upload">
+    <h1>Upload Your Notes</h1>
+
+    <input type="file" id="noteFile" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg">
+
+    <button class="btn" onclick="uploadNotes()">
+        Upload Notes
+    </button>
+
+    <h3>Uploaded Notes</h3>
+    <ul id="notesList"></ul>
+</div>
+<section class="footer" style="background-color: white;">
+        <div class="box-container">
+          <div class="box">
+            <h3>About Us</h3>
+            <p>Study Point is an online learning platform dedicated to helping students develop practical skills through high-quality courses, hands-on projects, and expert guidance.</p>
+          </div>
+          <div class="box">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="course.html">Course</a>
+            <a href="teacher.html">Teacher</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="pomodoro.html">Pomodoro</a>
+            <a href="Community.html">Community</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="box">
+            <h3>Follow Us</h3>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+          </div>
+          <div class="box">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-phone">+91-123-456-7890</i></p>
+            <p><i class="fas fa-envelope">sample123@gmail.com</i></p>
+            <p><i class="fas fa-map-market-alt">Sample Colony, Mysore</i></p>
+          </div>
+        </div>
+        </section>
+<script>
+
+let totalLessons = 10;
+let completed = JSON.parse(localStorage.getItem("frontendProgress")) || [];
+let currentLesson = "html";
+
+/* change video */
+function changeVideo(video, id){
+    document.getElementById("video").src = video;
+    currentLesson = id;
+}
+
+/* mark complete */
+function markComplete(){
+
+    if(!completed.includes(currentLesson)){
+        completed.push(currentLesson);
+        localStorage.setItem("frontendProgress", JSON.stringify(completed));
+    }
+
+    updateProgress();
+}
+
+/* update progress */
+function updateProgress(){
+
+    let percent = (completed.length / totalLessons) * 100;
+
+    document.getElementById("bar").value = percent;
+    document.getElementById("text").innerText =
+        Math.round(percent) + "% Completed";
+}
+
+/* load on start */
+updateProgress();
+/* upload notes */
+function uploadNotes(){
+
+    let fileInput = document.getElementById("noteFile");
+    let file = fileInput.files[0];
+
+    if(!file){
+        alert("Please select a file first!");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+
+        let notes = JSON.parse(localStorage.getItem("frontstudentNotes")) || [];
+
+        notes.push({
+            name: file.name,
+            data: e.target.result
+        });
+
+        localStorage.setItem("frontstudentNotes", JSON.stringify(notes));
+
+        displayNotes();
+
+        alert("Notes uploaded successfully!");
+
+        fileInput.value = "";
+    };
+
+    reader.readAsDataURL(file);
+}
+
+/* display uploaded notes */
+function displayNotes(){
+
+    let notes = JSON.parse(localStorage.getItem("frontstudentNotes")) || [];
+
+    let list = document.getElementById("notesList");
+
+    list.innerHTML = "";
+
+    notes.forEach((note, index) => {
+
+        let li = document.createElement("li");
+
+        li.innerHTML = `
+            <a href="${note.data}" download="${note.name}">
+                ${note.name}
+            </a>
+
+            <button onclick="deleteNote(${index})">
+                Delete
+            </button>
+        `;
+
+        list.appendChild(li);
+    });
+}
+
+/* delete note */
+function deleteNote(index){
+
+    let notes = JSON.parse(localStorage.getItem("frontstudentNotes")) || [];
+
+    notes.splice(index, 1);
+
+    localStorage.setItem("frontstudentNotes", JSON.stringify(notes));
+
+    displayNotes();
+}
+
+/* load notes on start */
+displayNotes();
+</script>
+
+</body>
+</html>

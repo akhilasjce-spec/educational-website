@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pomodoro Focus</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<script src="https://kit.fontawesome.com/a9171d7552.js" crossorigin="anonymous"></script>
+
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+
+function logout(){
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("user");
+  window.location.href = "login.html";
+}
+
+if ("Notification" in window) {
+  Notification.requestPermission();
+}
+</script>
+
+<link rel="stylesheet" href="css/style.css" />
+
+<style>
+.pomodoro-container{
+  max-width:850px;
+  margin:auto;
+  padding:40px;
+  text-align:center;
+}
+
+/* TIMER CARD */
+.timer-card{
+  background:#1f2937;
+  padding:30px;
+  border-radius:15px;
+  margin-bottom:20px;
+}
+
+.timer{
+  font-size:80px;
+  color:#22c55e;
+  margin-bottom:20px;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+}
+
+/* SETTINGS */
+.settings{
+  background:#111827;
+  padding:20px;
+  border-radius:12px;
+  margin:20px 0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  color:white;
+}
+
+.settings input{
+  padding:10px;
+  border-radius:8px;
+  border:none;
+}
+
+/* BLOCKED */
+.blocked-section{
+  background:#1f2937;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+  color:white;
+}
+
+input{
+  padding:10px;
+  width:250px;
+  border-radius:8px;
+  border:none;
+  margin-top:10px;
+}
+
+.blocked-list{
+  margin-top:15px;
+}
+
+.warning{
+  color:#ef4444;
+  font-weight:bold;
+  margin-top:20px;
+  font-size:18px;
+}
+
+/* FULLSCREEN */
+#focusOverlay{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#0f172a;
+  color:white;
+  font-size:30px;
+  text-align:center;
+  padding-top:20%;
+  z-index:9999;
+}
+</style>
+<script>
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+</script>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <a href="index.html" class="logo">Smart<span>Study</span></a>
+
+  <div id="menu" class="fas fa-bars"></div>
+
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="course.html">Course</a>
+    <a href="teacher.html">Teacher</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="community.html">Community</a>
+    <a href="pomodoro.html">Pomodoro</a>
+    <a href="contact.html">Contact</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+</header>
+
+<section class="home">
+<div class="pomodoro-container">
+
+  <h1>Pomodoro Focus Mode</h1>
+
+  <!-- TIMER -->
+  <div class="timer-card">
+    <div class="timer" id="timer">25:00</div>
+
+    <div class="controls">
+      <button onclick="startTimer()">Start</button>
+      <button onclick="pauseTimer()">Pause</button>
+      <button onclick="resetTimer()">Reset</button>
+    </div>
+    <br>
+    <div class="controls">
+      <button onclick="enterFocusMode()">Focus Mode </button>
+      <button onclick="exitFocusMode()">Exit </button>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="settings" style="align-items: center;">
+    <h3>⚙ Settings</h3>
+
+    <label>Work Time (minutes)</label>
+    <input type="number" id="workTime" value="25" min="1">
+
+    <label>Break Time (minutes)</label>
+    <input type="number" id="breakTime" value="5" min="1">
+
+    <button onclick="applySettings()">Apply Settings</button>
+  </div>
+
+  <!-- BLOCKED LIST -->
+  <div class="blocked-section">
+    <h3>Blocked Apps/Websites</h3>
+
+    <input type="text" id="blockInput" placeholder="Example: Instagram">
+    <button onclick="addBlocked()">Add</button>
+
+    <div class="blocked-list" id="blockedList"></div>
+  </div>
+
+  <div class="warning" id="warning"></div>
+
+</div>
+</section>
+
+</div>
+
+<!-- FULLSCREEN OVERLAY -->
+<div id="focusOverlay">
+  Focus Mode Active<br>
+  Stay on your task!
+</div>
+<section class="footer" style="background-color: white;">
+        <div class="box-container">
+          <div class="box">
+            <h3>About Us</h3>
+            <p>Study Point is an online learning platform dedicated to helping students develop practical skills through high-quality courses, hands-on projects, and expert guidance.</p>
+          </div>
+          <div class="box">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="course.html">Course</a>
+            <a href="teacher.html">Teacher</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="pomodoro.html">Pomodoro</a>
+            <a href="Community.html">Community</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="box">
+            <h3>Follow Us</h3>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+          </div>
+          <div class="box">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-phone">+91-123-456-7890</i></p>
+            <p><i class="fas fa-envelope">sample123@gmail.com</i></p>
+            <p><i class="fas fa-map-market-alt">Sample Colony, Mysore</i></p>
+          </div>
+        </div>
+        </section>
+<script src="js/script.js"></script>
+
+<script>
+/* TIMER SYSTEM */
+let workTime = 25 * 60;
+let breakTime = 5 * 60;
+let time = workTime;
+let timer;
+let isBreak = false;
+
+function updateDisplay(){
+  let minutes = Math.floor(time / 60);
+  let seconds = time % 60;
+
+  document.getElementById("timer").innerText =
+    `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+}
+
+function startTimer(){
+  clearInterval(timer);
+
+  timer = setInterval(() => {
+    time--;
+    updateDisplay();
+
+    if(time <= 0){
+      clearInterval(timer);
+
+      if(!isBreak){
+        alert(" Work session done! Take a break!");
+        time = breakTime;
+        isBreak = true;
+      } else {
+        alert("Break finished! Back to work!");
+        time = workTime;
+        isBreak = false;
+      }
+
+      startTimer();
+    }
+  }, 1000);
+}
+
+function pauseTimer(){
+  clearInterval(timer);
+}
+
+function resetTimer(){
+  clearInterval(timer);
+  time = workTime;
+  isBreak = false;
+  updateDisplay();
+}
+
+/* SETTINGS */
+function applySettings(){
+  workTime = parseInt(document.getElementById("workTime").value) * 60;
+  breakTime = parseInt(document.getElementById("breakTime").value) * 60;
+
+  time = workTime;
+  isBreak = false;
+
+  updateDisplay();
+}
+
+updateDisplay();
+
+/* BLOCK LIST */
+let blockedApps = JSON.parse(localStorage.getItem("blockedApps")) || [];
+
+function addBlocked(){
+  let app = document.getElementById("blockInput").value;
+  if(app.trim() === "") return;
+
+  blockedApps.push(app);
+  localStorage.setItem("blockedApps", JSON.stringify(blockedApps));
+
+  document.getElementById("blockInput").value = "";
+  renderBlocked();
+}
+
+function renderBlocked(){
+  let html = "";
+
+  blockedApps.forEach((app,index)=>{
+    html += `
+      <p>
+        🚫 ${app}
+        <button onclick="removeBlocked(${index})">X</button>
+      </p>
+    `;
+  });
+
+  document.getElementById("blockedList").innerHTML = html;
+}
+
+function removeBlocked(index){
+  blockedApps.splice(index,1);
+  localStorage.setItem("blockedApps", JSON.stringify(blockedApps));
+  renderBlocked();
+}
+
+renderBlocked();
+
+/* TAB SWITCH WARNING */
+function playAlertSound(){
+  const audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+  audio.play();
+}
+
+document.addEventListener("visibilitychange", () => {
+  const warning = document.getElementById("warning");
+
+  if(document.hidden){
+    warning.innerText = "⚠ You switched tabs! Stay focused.";
+
+    playAlertSound();
+
+    if(Notification.permission === "granted"){
+      new Notification("Focus Warning", {
+        body: "You switched tabs!"
+      });
+    }
+  } else {
+    warning.innerText = "";
+  }
+});
+
+/* FULLSCREEN MODE */
+function enterFocusMode(){
+  const doc = document.documentElement;
+
+  if(doc.requestFullscreen){
+    doc.requestFullscreen();
+  }
+
+  document.getElementById("focusOverlay").style.display = "block";
+}
+
+function exitFocusMode(){
+  if(document.exitFullscreen){
+    document.exitFullscreen();
+  }
+
+  document.getElementById("focusOverlay").style.display = "none";
+}
+
+document.addEventListener("fullscreenchange", () => {
+  if(!document.fullscreenElement){
+    document.getElementById("focusOverlay").style.display = "none";
+  }
+});
+</script>
+
+</body>
+</html>
